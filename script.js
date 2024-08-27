@@ -1,42 +1,56 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const initializeTerminal = () => {
+        const terminal = new Terminal();
+        const terminalElement = document.getElementById('terminal');
+        terminal.open(terminalElement);
 
-// Load the fit add-on
-const fitAddon = new FitAddon.FitAddon();
-terminal.loadAddon(fitAddon);
+        const updateDimensions = () => {
+            const terminalWindow = document.querySelector('.terminal-window');
+            const width = terminalWindow.clientWidth;
+            const height = terminalWindow.clientHeight;
 
-// Open the terminal in the #terminal element
-terminal.open(document.getElementById('terminal'));
+            // Approximate character width and height (adjust as necessary)
+            const charWidth = 9; // Adjust based on actual character dimensions
+            const charHeight = 18; // Adjust based on actual character dimensions
 
-// Fit the terminal to the container
-fitAddon.fit();
+            const cols = Math.floor(width / charWidth);
+            const rows = Math.floor(height / charHeight);
 
-// Initialize with the prompt symbol
-terminal.writeln('Welcome to your Web CLI!');
-terminal.write('\r\n$ ');
+            terminal.resize(cols, rows);
 
-// Adjust the terminal size dynamically when the window is resized
-window.addEventListener('resize', () => {
-    fitAddon.fit();
-});
+            // Optionally log for debugging
+            console.log(`Terminal resized to ${cols} cols x ${rows} rows`);
+        };
 
-// Keep track of cursor position to maintain prompt
-let isPrompt = true;
+        terminal.writeln('$ Welcome to the Terminal!');
+        terminal.writeln('Type "help" for a list of commands.');
 
-terminal.onKey(({ key, domEvent }) => {
-    const printable = !domEvent.altKey && !domEvent.ctrlKey && !domEvent.metaKey;
+        // Update dimensions after a short delay to ensure terminal rendering
+        setTimeout(() => {
+            updateDimensions();
+            // Optionally, listen for resize events to keep terminal responsive
+            window.addEventListener('resize', updateDimensions);
+        }, 5000);
 
-    if (domEvent.keyCode === 13) { // Enter key
-        terminal.write('\r\n$ '); // Add new prompt line
-        isPrompt = true;
-    } else if (domEvent.keyCode === 8) { // Backspace key
-        if (!isPrompt) {
-            terminal.write('\b \b'); // Handle backspace
-        }
-    } else if (printable) {
-        terminal.write(key); // Insert character
-        isPrompt = false;
-    }
-});
+        // Clear previous event handlers if any
+        terminal.onKey(e => {
+            const char = e.key;
+            if (char === '\r') {
+                terminal.writeln('');
+            } else if (char === '\u007F') { // Handle backspace
+                terminal.write('\b \b');
+            } else {
+                terminal.write(char);
+            }
+        });
 
-const terminal = new Terminal({
-    cursorBlink: true
+        terminal.onData(data => {
+            // This should not be needed if `onKey` handles input correctly
+            // terminal.write(data); 
+        });
+
+        // Prevent double input by handling only one event
+    };
+
+    setTimeout(initializeTerminal, 5000);
 });

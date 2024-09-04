@@ -15,22 +15,22 @@ body {
 .outerpill-container {
     width: 80%;
     height: 90%;
-    background-color: rgba(0, 6, 124, 0.365);
+    background-color: rgba(15, 20, 111, 0.365);
     border-radius: 100px / 60%;
-    border: 5px solid rgba(255, 255, 255, 0.8);
+    border: 5px solid rgba(158, 228, 255, 0.8);
     overflow: hidden;
     position: relative; /* Ensure that inner pill is positioned relative to this */
 }
 
 /* Inner pill-shaped container styling */
 .innerpill-container {
-    width: 85%;
+    width: 90%;
     height: 90%;
-    background-color: rgba(158, 228, 255, 0.796);
+    background-color: rgba(12, 122, 165, 0.525);
     overflow: auto;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     border-radius: 100px / 60%;
-    border: 5px solid rgb(158, 228, 255);
+    border: 3px solid rgb(158, 228, 255);
     position: absolute; /* Absolute positioning to center it */
     top: 50%; /* Center vertically */
     left: 50%; /* Center horizontally */
@@ -46,11 +46,11 @@ body {
         height: 0;
     }
     50% {
-        width: 85%; /* Expand horizontally first */
+        width: 90%; /* Expand horizontally first */
         height: 0;
     }
     100% {
-        width: 85%;
+        width: 90%;
         height: 90%; /* Expand vertically to full size */
     }
 }
@@ -64,7 +64,6 @@ body {
     color: rgba(0, 255, 0, 1); /* Solid green text for visibility */
     border-radius: 10px; /* Rounded corners for the terminal */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Shadow for depth */
-    font-family: monospace; /* Monospaced font for terminal text */
     overflow: hidden; /* Hide overflow text */
     position: absolute; /* Absolute positioning within parent */
     top: 50%; /* Align top */
@@ -84,21 +83,22 @@ body {
     overflow-x: hidden;
 }
 
-/* VERY VERY IMPORAT SECTION, TO MAKE VIEWPORT TRANSPARENT LATER, The shadow to be removed from terminal-window. sort
-/* Adjust xterm viewport scrollbars
-.xterm-viewport {
-    background-color: transparent !important; /* Fully transparent background */
-    /*overflow-x: hidden; /* Hide horizontal overflow */
-    /*overflow-y: hidden !important; /* Show vertical scrollbar only when needed */
-/*}*/
-
-
-
 .terminal-window .xterm-screen {
     height: 100%;
     width: 100%;
 }
 
 .terminal-window .xterm-rows {
-    height: auto; /* Ensure rows adapt to height of viewport */
+    font-family: 'Fira Code', monospace;
+    font-size: 18px; /* Adjust the font size as needed */
+    height: auto; /* Ensure rows adapt to the height of the viewport */
 }
+
+
+/* VERY VERY IMPORAT SECTION, TO MAKE VIEWPORT TRANSPARENT LATER, The shadow to be removed from terminal-window. sort
+Adjust xterm viewport scrollbars*/
+/* .xterm-viewport {
+    background-color: transparent !important; /* Fully transparent background */
+    /*overflow-x: hidden; /* Hide horizontal overflow */
+    /*overflow-y: hidden !important; /* Show vertical scrollbar only when needed */
+/*}*/
